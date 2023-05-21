@@ -1,0 +1,13 @@
+$vinho: #9E2E2D;
+$vinho2: #e63e3b;
+$vinho3: #ffcccc;
+$cinza: #dfdfdf;
+$cinza2: #b1b1b1;
+$branco: #ffffff;
+
+$fonte: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+h1, h2, h3, h4, p, text, tr, td, th{
+    font-family: $fonte;
+    color: $vinho;
+}
