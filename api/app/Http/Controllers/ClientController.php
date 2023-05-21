@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\Client\StoreClientRequest;
+use App\Http\Requests\Client\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class ClientController extends Controller
         return ClientResource::make($client);
     }
 
-    public function update(Request $request, Client $client): JsonResource
+    public function update(UpdateClientRequest $request, Client $client): JsonResource
     {
         $client->update($request->all());
         return ClientResource::make($client->fresh());
