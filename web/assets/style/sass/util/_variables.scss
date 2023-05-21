@@ -3,11 +3,16 @@ $vinho2: #e63e3b;
 $vinho3: #ffcccc;
 $cinza: #dfdfdf;
 $cinza2: #b1b1b1;
+$cinza3: #3b3b3b;
 $branco: #ffffff;
 
 $fonte: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-h1, h2, h3, h4, p, text, tr, td, th{
+h1, h2, h3, h4, p, text, tr, td, th, label{
     font-family: $fonte;
     color: $vinho;
+}
+
+h2{
+    margin-right: 10px;
 }

@@ -1,0 +1,41 @@
+@use './../util/variables' as v;
+@use './../util/util' as u;
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.6);
+
+    &-content {
+        position: relative;
+        @include u.border();
+        background-color: #fefefe;
+        margin: 20vh auto;
+        max-width: 50vw;
+        max-height: 90vh;
+    }
+}
+
+    .close {
+        float: right;
+        font-size: 28px;
+        
+        font-weight: bold;
+        cursor: pointer;
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            cursor: pointer;
+        }
+        &-btn{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
