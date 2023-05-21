@@ -1,0 +1,158 @@
+openapi: 3.0.0
+servers: [
+  url: 'http://localhost/api/v1',
+]
+
+info:
+  title: Client API
+  version: 1.0.0
+paths:
+  /api/clients:
+    get:
+      tags:
+        - Client
+
+      summary: Get all clients
+      operationId: getClientList
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Client'
+    post:
+      tags:
+        - Client
+      summary: Create a new client
+      operationId: createClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/ClientInput'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+  /api/clients/{code}:
+    get:
+      tags:
+        - Client
+      summary: Get a client by code
+      operationId: getClientById
+      parameters:
+        - name: client
+          in: path
+          description: code of the client
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Client'
+    put:
+      tags:
+        - Client
+      summary: Update a client
+      operationId: updateClient
+      parameters:
+        - name: client
+          in: path
+          description: code of the client
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientInput'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Client'
+    delete:
+      tags:
+        - Client
+      summary: Delete a client
+      operationId: deleteClient
+      parameters:
+        - name: client
+          in: path
+          description: code of the client
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Successful response with no content
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        code:
+          type: integer
+        name:
+          type: string
+        cpf:
+          type: string
+        address:
+          type: string
+        primary_phone:
+          type: string
+        secondary_phone:
+          type: string
+        obs:
+          type: string
+      required:
+        - name
+        - cpf
+        - primary_phone
+
+    ClientInput:
+      type: object
+      properties:
+        name:
+          type: string
+        cpf:
+          type: string
+        address:
+          type: string
+        primary_phone:
+          type: string
+        secondary_phone:
+          type: string
+        obs:
+          type: string
+      required:
+        - name
+        - cpf
+        - primary_phone
