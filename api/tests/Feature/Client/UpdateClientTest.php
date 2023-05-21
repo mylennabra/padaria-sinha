@@ -6,12 +6,9 @@ use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
-use Tests\Traits\WithDatabaseMany;
 
 class UpdateClientTest extends TestCase
 {
-    use WithDatabaseMany;
-
     public function test_update_client(): void
     {
         $body = $this->body();
