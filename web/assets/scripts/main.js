@@ -272,7 +272,9 @@ function displayClients({ clients, isInitialRender, data }) {
     const filters = [];
 
     if (data?.name) {
-      filters.push(client.name.toLowerCase() === data.name.toLowerCase());
+      filters.push(
+        client.name.toLowerCase().includes(data.name.toLowerCase())
+      );
     }
 
     if (data?.code) {
@@ -282,7 +284,7 @@ function displayClients({ clients, isInitialRender, data }) {
     }
 
     if (data?.cpf) {
-      filters.push(client.cpf.toLowerCase() === data.cpf.toLowerCase());
+      filters.push(client.cpf.toLowerCase().slice(0, data.cpf.length).includes(data.cpf.toLowerCase()));
     }
 
     return filters.every((filter) => filter === true);
