@@ -144,12 +144,38 @@ class Api {
 const modal = document.getElementById("modal");
 const btn = document.getElementById("openModalBtn");
 const closeBtns = document.querySelectorAll(".close");
+const clientNameInput = document.getElementById("nome");
+const clientCpfInput = document.getElementById("cpf");
+const clientAddressInput = document.getElementById("endereco");
+const clientPrimaryPhoneInput = document.getElementById("telefonePrincipal");
+const clientSecondaryPhoneInput = document.getElementById("telefoneSecundario");
+const clientObsInput = document.getElementById("observacoes");
+
+const clientInputs = [
+  clientNameInput,
+  clientCpfInput,
+  clientAddressInput,
+  clientPrimaryPhoneInput,
+  clientSecondaryPhoneInput,
+  clientObsInput,
+];
+
+function resetClientInputs() {
+  clientInputs.forEach((input) => (input.value = ""));
+}
+
+function closeModal(btn) {
+  if (btn) {
+    btn.closest(".modal").style.display = "none";
+  } else {
+    document.getElementById("modal").style.display = "none";
+  }
+
+  resetClientInputs();
+}
 
 closeBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    let modal = btn.closest(".modal");
-    modal.style.display = "none";
-  });
+  btn.addEventListener("click", () => closeModal(btn));
 });
 
 btn.onclick = () => {
@@ -161,8 +187,6 @@ window.onclick = (event) => {
     modal.style.display = "none";
   }
 };
-
-const searchClientsButton = document.getElementById("search-clients");
 
 const table = document.getElementById("table");
 
@@ -176,31 +200,19 @@ function searchClients() {
   const cpf = cpfFilter.value;
 
   if (!name.length && !code.length && !cpf.length) {
-    displayClients({ clients, isInitialRender: true });
+    displayClients({
+      clients,
+      isInitialRender: true,
+      data: { name, code, cpf },
+    });
     return;
   }
 
-  const filterClient = (client) => {
-    const filters = [];
-
-    if (name) {
-      filters.push(client.name.toLowerCase() === name.toLowerCase());
-    }
-
-    if (code) {
-      filters.push(client.code.toString().toLowerCase() === code.toLowerCase());
-    }
-
-    if (cpf) {
-      filters.push(client.cpf.toLowerCase() === cpf.toLowerCase());
-    }
-
-    return filters.every((filter) => filter === true);
-  };
-
-  clients = initialClients.filter(filterClient);
-
-  displayClients({ clients, isInitialRender: false });
+  displayClients({
+    clients: initialClients,
+    isInitialRender: false,
+    data: { name, code, cpf },
+  });
 
   // TODO: make a http get request to filter clients
 }
@@ -211,19 +223,24 @@ function handleFilterEnterKey(key) {
   }
 }
 
-nameFilter.addEventListener("keypress", (event) =>
-  handleFilterEnterKey(event.key)
-);
-codeFilter.addEventListener("keypress", (event) =>
-  handleFilterEnterKey(event.key)
-);
-cpfFilter.addEventListener("keypress", (event) =>
-  handleFilterEnterKey(event.key)
-);
+nameFilter.addEventListener("keypress", (event) => {
+  handleFilterEnterKey(event.key);
+});
 
-function displayClients({ clients, isInitialRender }) {
-  assert(Array.isArray(clients));
-  assert(typeof isInitialRender === "boolean");
+codeFilter.addEventListener("keypress", (event) => {
+  handleFilterEnterKey(event.key);
+});
+
+cpfFilter.addEventListener("keypress", (event) => {
+  handleFilterEnterKey(event.key);
+});
+
+function displayClients({ clients, isInitialRender, data }) {
+  assert(Array.isArray(clients), "clients must be an array");
+  assert(
+    typeof isInitialRender === "boolean",
+    "isInitialRender must be a boolean"
+  );
 
   table.innerHTML = `
     <thead>
@@ -237,8 +254,10 @@ function displayClients({ clients, isInitialRender }) {
   `;
 
   if (isInitialRender) {
-    return initialClients.forEach((client) => {
-      table.innerHTML += `
+    return initialClients
+      .sort((a, b) => a.code > b.code)
+      .forEach((client) => {
+        table.innerHTML += `
         <tr>
           <td>${client.code}</td>
           <td>${client.name}</td>
@@ -246,11 +265,33 @@ function displayClients({ clients, isInitialRender }) {
           <td>${client.address}</td>
         </tr>
       `;
-    });
+      });
   }
 
-  clients.forEach((client) => {
-    table.innerHTML += `
+  clients = initialClients.filter((client) => {
+    const filters = [];
+
+    if (data?.name) {
+      filters.push(client.name.toLowerCase() === data.name.toLowerCase());
+    }
+
+    if (data?.code) {
+      filters.push(
+        client.code.toString().toLowerCase() === data.code.toLowerCase()
+      );
+    }
+
+    if (data?.cpf) {
+      filters.push(client.cpf.toLowerCase() === data.cpf.toLowerCase());
+    }
+
+    return filters.every((filter) => filter === true);
+  });
+
+  clients
+    .sort((a, b) => a.code > b.code)
+    .forEach((client) => {
+      table.innerHTML += `
       <tr>
         <td>${client.code}</td>
         <td>${client.name}</td>
@@ -258,7 +299,7 @@ function displayClients({ clients, isInitialRender }) {
         <td>${client.address}</td>
       </tr>
     `;
-  });
+    });
 }
 
 window.addEventListener("load", () => {
@@ -269,4 +310,33 @@ window.addEventListener("load", () => {
   displayClients({ clients, isInitialRender: true });
 });
 
-searchClientsButton.addEventListener("click", () => searchClients());
+document
+  .getElementById("search-clients")
+  .addEventListener("click", () => searchClients());
+
+document.getElementById("create-client").addEventListener("click", () => {
+  if (!clientNameInput.value.length) {
+    return alert("nome é obrigatório");
+  }
+
+  if (!clientCpfInput.value.length) {
+    return alert("cpf é obrigatório");
+  }
+
+  if (!clientPrimaryPhoneInput.value.length) {
+    return alert("telefone principal é obrigatório");
+  }
+
+  initialClients.push({
+    code: initialClients[initialClients.length - 1].code + 1,
+    name: clientNameInput.value,
+    cpf: clientCpfInput.value,
+    address: clientAddressInput.value,
+    primaryPhone: clientPrimaryPhoneInput.value,
+    secondaryPhone: clientSecondaryPhoneInput.value,
+    obs: clientObsInput.value,
+  });
+
+  closeModal();
+  displayClients({ clients: initialClients, isInitialRender: false });
+});
