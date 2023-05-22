@@ -159,7 +159,10 @@ body {
 .table-container {
   height: 100%;
   border-radius: 20px;
-  overflow: auto;
+  scroll-padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
 }
 .table-container::-webkit-scrollbar {
   width: 10px;
@@ -174,19 +177,35 @@ body {
 }
 
 .table {
-  width: 100%;
+  width: 52vw;
   border-collapse: collapse;
   background-color: #dfdfdf;
+  table-layout: fixed;
 }
 .table th {
   background-color: #9E2E2D;
   color: #ffffff;
+  cursor: default;
+}
+.table th:nth-child(1) {
+  width: 5%;
+}
+.table th:nth-child(2) {
+  width: 30%;
+}
+.table th:nth-child(3) {
+  width: 20%;
+}
+.table th:last-child {
+  width: 40%;
 }
 .table tr:hover {
   background-color: #ffcccc;
   cursor: pointer;
 }
-.table td, .table th {
+.table td,
+.table th {
+  text-align: center;
   padding: 8px;
   border: 1px solid #dddddd;
 }
@@ -277,37 +296,37 @@ body {
   width: 310px;
 }
 
-.table-container {
+.pro-table-container {
   height: 100%;
   border-radius: 20px;
   overflow: auto;
 }
-.table-container::-webkit-scrollbar {
+.pro-table-container::-webkit-scrollbar {
   width: 10px;
   background-color: #dfdfdf;
 }
-.table-container::-webkit-scrollbar-thumb {
+.pro-table-container::-webkit-scrollbar-thumb {
   background-color: #9E2E2D;
   border-radius: 10px;
 }
-.table-container::-webkit-scrollbar-track {
+.pro-table-container::-webkit-scrollbar-track {
   background-color: #dfdfdf;
 }
 
-.table {
+.pro-table {
   width: 100%;
   border-collapse: collapse;
   background-color: #dfdfdf;
 }
-.table th {
+.pro-table th {
   background-color: #9E2E2D;
   color: #ffffff;
 }
-.table tr:hover {
+.pro-table tr:hover {
   background-color: #ffcccc;
   cursor: pointer;
 }
-.table td, .table th {
+.pro-table td, .pro-table th {
   padding: 8px;
   border: 1px solid #dddddd;
 }
