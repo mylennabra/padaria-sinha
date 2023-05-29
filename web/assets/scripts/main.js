@@ -1,4 +1,3 @@
-
 const config = {
   apiUrl: "http://localhost:8000/api",
 };
@@ -151,6 +150,7 @@ const clientAddressInput = document.getElementById("endereco");
 const clientPrimaryPhoneInput = document.getElementById("telefonePrincipal");
 const clientSecondaryPhoneInput = document.getElementById("telefoneSecundario");
 const clientObsInput = document.getElementById("observacoes");
+const removeClientButton = document.getElementById("remove-client");
 
 const cpfCnpjMask = IMask(clientCpfInput, {
   mask: [
@@ -164,7 +164,6 @@ const cpfCnpjMask = IMask(clientCpfInput, {
     },
   ],
 });
-
 
 const clientInputs = [
   clientNameInput,
@@ -180,6 +179,8 @@ function resetClientInputs() {
 }
 
 function closeModal(btn) {
+  removeClientButton.style.display = "none";
+
   if (btn) {
     btn.closest(".modal").style.display = "none";
   } else {
@@ -221,6 +222,98 @@ const cpfCnpjMaskFilter = IMask(cpfFilter, {
     },
   ],
 });
+
+function validateCnpj(cnpj) {
+  cnpj = cnpj.replace(/[^\d]+/g, ""); // Remove caracteres não numéricos
+
+  if (cnpj.length !== 14 || /^(.)\1+$/.test(cnpj)) {
+    return false;
+  }
+
+  var tamanho = cnpj.length - 2;
+  var numeros = cnpj.substring(0, tamanho);
+  var digitos = cnpj.substring(tamanho);
+  var soma = 0;
+  var pos = tamanho - 7;
+
+  for (var i = tamanho; i >= 1; i--) {
+    soma += numeros.charAt(tamanho - i) * pos--;
+    if (pos < 2) {
+      pos = 9;
+    }
+  }
+
+  var resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+
+  if (resultado !== parseInt(digitos.charAt(0))) {
+    return false;
+  }
+
+  tamanho = tamanho + 1;
+  numeros = cnpj.substring(0, tamanho);
+  soma = 0;
+  pos = tamanho - 7;
+
+  for (i = tamanho; i >= 1; i--) {
+    soma += numeros.charAt(tamanho - i) * pos--;
+    if (pos < 2) {
+      pos = 9;
+    }
+  }
+
+  resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+
+  if (resultado !== parseInt(digitos.charAt(1))) {
+    return false;
+  }
+
+  return true;
+}
+
+function validateCpf(cpf) {
+  assert(typeof cpf === "string");
+
+  cpf = cpf.replace(/[^\d]+/g, ""); // Remove caracteres não numéricos
+
+  if (cpf.length !== 11 || /^(.)\1+$/.test(cpf)) {
+    return false;
+  }
+
+  let sum = 0;
+  let remainder;
+
+  for (var i = 1; i <= 9; i++) {
+    sum = sum + parseInt(cpf.substring(i - 1, i)) * (11 - i);
+  }
+
+  remainder = (sum * 10) % 11;
+
+  if (remainder === 10 || remainder === 11) {
+    remainder = 0;
+  }
+
+  if (remainder !== parseInt(cpf.substring(9, 10))) {
+    return false;
+  }
+
+  sum = 0;
+
+  for (i = 1; i <= 10; i++) {
+    sum = sum + parseInt(cpf.substring(i - 1, i)) * (12 - i);
+  }
+
+  remainder = (sum * 10) % 11;
+
+  if (remainder === 10 || remainder === 11) {
+    remainder = 0;
+  }
+
+  if (remainder !== parseInt(cpf.substring(10, 11))) {
+    return false;
+  }
+
+  return true;
+}
 
 function searchClients() {
   const name = nameFilter.value;
@@ -286,6 +379,7 @@ function displayClients({ clients, isInitialRender, data }) {
       .sort((a, b) => a.code > b.code)
       .forEach((client) => {
         const row = document.createElement("tr");
+
         row.innerHTML = `
           <td>${client.code}</td>
           <td>${client.name}</td>
@@ -306,12 +400,16 @@ function displayClients({ clients, isInitialRender, data }) {
                 <p>${client.primaryPhone}</p>
                 <p>${client.secondaryPhone}</p>
               </div>
-              ${client.obs !== undefined ? `
+              ${
+                client.obs !== undefined
+                  ? `
                 <div class="cli-preview-3">
                   <h4>Observações:</h4>
                   <p>${client.obs}</p>
                 </div>
-              ` : ''}
+              `
+                  : ""
+              }
             </div>
           `;
         });
@@ -320,13 +418,11 @@ function displayClients({ clients, isInitialRender, data }) {
       });
   }
 
-  clients = initialClients.filter((client) => {
+  const newClients = clients.filter((client) => {
     const filters = [];
 
     if (data?.name) {
-      filters.push(
-        client.name.toLowerCase().includes(data.name.toLowerCase())
-      );
+      filters.push(client.name.toLowerCase().includes(data.name.toLowerCase()));
     }
 
     if (data?.code) {
@@ -347,10 +443,11 @@ function displayClients({ clients, isInitialRender, data }) {
     return filters.every((filter) => filter === true);
   });
 
-  clients
+  newClients
     .sort((a, b) => a.code > b.code)
     .forEach((client) => {
       const row = document.createElement("tr");
+
       row.innerHTML = `
         <td>${client.code}</td>
         <td>${client.name}</td>
@@ -371,21 +468,23 @@ function displayClients({ clients, isInitialRender, data }) {
               <p>${client.primaryPhone}</p>
               <p>${client.secondaryPhone}</p>
             </div>
-            ${client.obs !== undefined ? `
+            ${
+              client.obs !== undefined
+                ? `
               <div class="cli-preview-3">
                 <h4>Observações:</h4>
                 <p>${client.obs}</p>
               </div>
-            ` : ''}
+            `
+                : ""
+            }
           </div>
         `;
       });
-      
 
       table.appendChild(row);
     });
 }
-
 
 window.addEventListener("load", () => {
   nameFilter.value = "";
@@ -400,13 +499,28 @@ document
   .addEventListener("click", () => searchClients());
 
 document.getElementById("create-client").addEventListener("click", () => {
+  const isCpf = () => {
+    return clientCpfInput.value.replace(/[^\d]+/g, "").length === 11;
+  };
+
+  const isCnpj = () => {
+    return clientCpfInput.value.replace(/[^\d]+/g, "").length === 14;
+  };
+
   if (!clientNameInput.value.length) {
     return alert("nome é obrigatório");
   }
 
+  if (!isCpf() && !isCnpj()) {
+    return alert("Insira um CPF ou CNPJ válido");
+  }
 
-  if (!clientCpfInput.value.length) {
-    return alert("Insira um CPF válido");
+  if (isCpf() && !validateCpf(clientCpfInput.value || "")) {
+    return alert(`cpf ${clientCpfInput.value} inválido`);
+  }
+
+  if (isCnpj() && !validateCnpj(clientCpfInput.value || "")) {
+    return alert(`cnpj ${clientCpfInput.value} inválido`);
   }
 
   if (!clientPrimaryPhoneInput.value.length) {
@@ -433,7 +547,8 @@ document.getElementById("create-client").addEventListener("click", () => {
       initialClients[clientIndex].cpf = clientCpfInput.value;
       initialClients[clientIndex].address = clientAddressInput.value;
       initialClients[clientIndex].primaryPhone = clientPrimaryPhoneInput.value;
-      initialClients[clientIndex].secondaryPhone = clientSecondaryPhoneInput.value;
+      initialClients[clientIndex].secondaryPhone =
+        clientSecondaryPhoneInput.value;
       initialClients[clientIndex].obs = clientObsInput.value;
     }
   }
@@ -442,11 +557,16 @@ document.getElementById("create-client").addEventListener("click", () => {
   displayClients({ clients: initialClients, isInitialRender: false });
 });
 
+let client;
+
 table.addEventListener("click", (event) => {
   const row = event.target.closest("tr");
+
   if (row) {
     const code = parseInt(row.cells[0].textContent);
-    const client = initialClients.find((c) => c.code === code);
+
+    client = initialClients.find((c) => c.code === code);
+
     if (client) {
       openModal(client);
     }
@@ -460,10 +580,22 @@ function openModal(client) {
   clientAddressInput.value = client.address;
   clientPrimaryPhoneInput.value = client.primaryPhone;
   clientSecondaryPhoneInput.value = client.secondaryPhone;
-  if(client.obs!==undefined){clientObsInput.value = client.obs;}
+
+  if (client.obs !== undefined) {
+    clientObsInput.value = client.obs;
+  }
+
   modal.dataset.mode = "edit";
   modal.dataset.code = client.code;
+
+  removeClientButton.style.display = "flex";
 }
 
+removeClientButton.addEventListener("click", (event) => {
+  event.preventDefault();
 
+  const newClients = clients.filter(({ code }) => code !== client.code);
+  displayClients({ clients: newClients, isInitialRender: false });
 
+  modal.style.display = "none";
+});
