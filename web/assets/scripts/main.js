@@ -1,3 +1,4 @@
+
 const config = {
   apiUrl: "http://localhost:8000/api",
 };
@@ -151,6 +152,20 @@ const clientPrimaryPhoneInput = document.getElementById("telefonePrincipal");
 const clientSecondaryPhoneInput = document.getElementById("telefoneSecundario");
 const clientObsInput = document.getElementById("observacoes");
 
+const cpfCnpjMask = IMask(clientCpfInput, {
+  mask: [
+    {
+      mask: "000.000.000-00",
+      maxLength: 14,
+    },
+    {
+      mask: "00.000.000/0000-00",
+      maxLength: 18,
+    },
+  ],
+});
+
+
 const clientInputs = [
   clientNameInput,
   clientCpfInput,
@@ -193,6 +208,19 @@ const table = document.getElementById("table");
 const nameFilter = document.getElementById("name-input");
 const codeFilter = document.getElementById("code-input");
 const cpfFilter = document.getElementById("cpf-input");
+
+const cpfCnpjMaskFilter = IMask(cpfFilter, {
+  mask: [
+    {
+      mask: "000.000.000-00",
+      maxLength: 14,
+    },
+    {
+      mask: "00.000.000/0000-00",
+      maxLength: 18,
+    },
+  ],
+});
 
 function searchClients() {
   const name = nameFilter.value;
@@ -257,14 +285,38 @@ function displayClients({ clients, isInitialRender, data }) {
     return initialClients
       .sort((a, b) => a.code > b.code)
       .forEach((client) => {
-        table.innerHTML += `
-        <tr>
+        const row = document.createElement("tr");
+        row.innerHTML = `
           <td>${client.code}</td>
           <td>${client.name}</td>
           <td>${client.primaryPhone}</td>
           <td>${client.address}</td>
-        </tr>
-      `;
+        `;
+
+        row.addEventListener("mouseover", () => {
+          const cliPreviewCtn = document.querySelector(".cli-previa-ctn");
+          cliPreviewCtn.innerHTML = `
+            <div class="cli-preview">
+              <div class="cli-preview-1">
+                <h4>Nome:</h4>
+                <p>${client.name}</p>
+              </div>
+              <div class="cli-preview-2">
+                <h4>Telefones:</h4>
+                <p>${client.primaryPhone}</p>
+                <p>${client.secondaryPhone}</p>
+              </div>
+              ${client.obs !== undefined ? `
+                <div class="cli-preview-3">
+                  <h4>Observações:</h4>
+                  <p>${client.obs}</p>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+
+        table.appendChild(row);
       });
   }
 
@@ -284,7 +336,12 @@ function displayClients({ clients, isInitialRender, data }) {
     }
 
     if (data?.cpf) {
-      filters.push(client.cpf.toLowerCase().slice(0, data.cpf.length).includes(data.cpf.toLowerCase()));
+      filters.push(
+        client.cpf
+          .toLowerCase()
+          .slice(0, data.cpf.length)
+          .includes(data.cpf.toLowerCase())
+      );
     }
 
     return filters.every((filter) => filter === true);
@@ -293,16 +350,42 @@ function displayClients({ clients, isInitialRender, data }) {
   clients
     .sort((a, b) => a.code > b.code)
     .forEach((client) => {
-      table.innerHTML += `
-      <tr>
+      const row = document.createElement("tr");
+      row.innerHTML = `
         <td>${client.code}</td>
         <td>${client.name}</td>
         <td>${client.primaryPhone}</td>
         <td>${client.address}</td>
-      </tr>
-    `;
+      `;
+
+      row.addEventListener("mouseover", () => {
+        const cliPreviewCtn = document.querySelector(".cli-previa-ctn");
+        cliPreviewCtn.innerHTML = `
+          <div class="cli-preview">
+            <div class="cli-preview-1">
+              <h4>Nome:</h4>
+              <p>${client.name}</p>
+            </div>
+            <div class="cli-preview-2">
+              <h4>Telefones:</h4>
+              <p>${client.primaryPhone}</p>
+              <p>${client.secondaryPhone}</p>
+            </div>
+            ${client.obs !== undefined ? `
+              <div class="cli-preview-3">
+                <h4>Observações:</h4>
+                <p>${client.obs}</p>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+      
+
+      table.appendChild(row);
     });
 }
+
 
 window.addEventListener("load", () => {
   nameFilter.value = "";
@@ -321,24 +404,66 @@ document.getElementById("create-client").addEventListener("click", () => {
     return alert("nome é obrigatório");
   }
 
+
   if (!clientCpfInput.value.length) {
-    return alert("cpf é obrigatório");
+    return alert("Insira um CPF válido");
   }
 
   if (!clientPrimaryPhoneInput.value.length) {
     return alert("telefone principal é obrigatório");
   }
 
-  initialClients.push({
-    code: initialClients[initialClients.length - 1].code + 1,
-    name: clientNameInput.value,
-    cpf: clientCpfInput.value,
-    address: clientAddressInput.value,
-    primaryPhone: clientPrimaryPhoneInput.value,
-    secondaryPhone: clientSecondaryPhoneInput.value,
-    obs: clientObsInput.value,
-  });
+  if (modal.dataset.mode !== "edit") {
+    const newClient = {
+      code: initialClients[initialClients.length - 1].code + 1,
+      name: clientNameInput.value,
+      cpf: clientCpfInput.value,
+      address: clientAddressInput.value,
+      primaryPhone: clientPrimaryPhoneInput.value,
+      secondaryPhone: clientSecondaryPhoneInput.value,
+      obs: clientObsInput.value,
+    };
+
+    initialClients.push(newClient);
+  } else if (modal.dataset.mode === "edit") {
+    const code = parseInt(modal.dataset.code);
+    const clientIndex = initialClients.findIndex((c) => c.code === code);
+    if (clientIndex !== -1) {
+      initialClients[clientIndex].name = clientNameInput.value;
+      initialClients[clientIndex].cpf = clientCpfInput.value;
+      initialClients[clientIndex].address = clientAddressInput.value;
+      initialClients[clientIndex].primaryPhone = clientPrimaryPhoneInput.value;
+      initialClients[clientIndex].secondaryPhone = clientSecondaryPhoneInput.value;
+      initialClients[clientIndex].obs = clientObsInput.value;
+    }
+  }
 
   closeModal();
   displayClients({ clients: initialClients, isInitialRender: false });
 });
+
+table.addEventListener("click", (event) => {
+  const row = event.target.closest("tr");
+  if (row) {
+    const code = parseInt(row.cells[0].textContent);
+    const client = initialClients.find((c) => c.code === code);
+    if (client) {
+      openModal(client);
+    }
+  }
+});
+
+function openModal(client) {
+  modal.style.display = "block";
+  clientNameInput.value = client.name;
+  clientCpfInput.value = client.cpf;
+  clientAddressInput.value = client.address;
+  clientPrimaryPhoneInput.value = client.primaryPhone;
+  clientSecondaryPhoneInput.value = client.secondaryPhone;
+  if(client.obs!==undefined){clientObsInput.value = client.obs;}
+  modal.dataset.mode = "edit";
+  modal.dataset.code = client.code;
+}
+
+
+
