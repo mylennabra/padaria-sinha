@@ -7,6 +7,10 @@ h2 {
   margin-right: 10px;
 }
 
+#remove-client {
+  display: none;
+}
+
 .icon-filled, .icon {
   background-color: #9E2E2D;
   color: #ffffff;
