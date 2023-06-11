@@ -1,0 +1,66 @@
+@use './../util/variables' as v;
+
+.btn{
+    display: flex;
+    padding: 11px;
+    align-items: center;
+    height: 7vh;
+    background-color: v.$vinho;
+    color: v.$branco; 
+    outline: none;
+    border: none;
+    border-radius: 5px; 
+    margin-left: 10px;
+    i{
+        color: v.$branco; 
+        margin-right: 10px;
+        font-size: 18px;
+    }
+    h5{
+        font-size: 15px;
+        color: v.$branco; 
+    }
+    &:hover{
+        transition-duration: 0.5s;
+        cursor: pointer;
+        background-color: v.$vinho2;
+    }
+}
+
+.main-btn{
+    display: flex;
+    gap: 20px;
+
+    &-a{   
+        display: flex;
+        flex-direction: column;
+        place-items: center;
+        &-icon{
+            border-radius:50%;
+            display: grid;
+            place-items: center;
+            padding: 15px;
+            background-color: v.$vinho; 
+            color: v.$branco; 
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+            
+        }
+        &-text{
+            font-size:16px;
+            color: v.$vinho; 
+            font-weight: bold;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+    }
+}
+
+.main-btn > .main-btn-a > .main-btn-a-icon:hover {
+    background-color: v.$vinho2;
+    transition-duration: 0.5s;
+}
+
+a{
+    text-decoration: none;
+}
