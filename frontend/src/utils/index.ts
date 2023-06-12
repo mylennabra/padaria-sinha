@@ -102,3 +102,32 @@ export function mergeObjects(
 
   return merged;
 }
+
+export function getProductFiltersInputs(): HTMLInputElement[] {
+  const descriptionFilter = document.getElementById(
+    "product-description-filter"
+  ) as HTMLInputElement;
+  const codeFilter = document.getElementById(
+    "product-code-filter"
+  ) as HTMLInputElement;
+  const groupFilter = document.getElementById(
+    "product-group-filter"
+  ) as HTMLInputElement;
+
+  return [descriptionFilter, codeFilter, groupFilter];
+}
+
+export function getProductFilters(): {
+  description: string;
+  code: string;
+  group: string;
+} {
+  const [descriptionFilter, codeFilter, groupFilter] =
+    getProductFiltersInputs();
+
+  return {
+    description: descriptionFilter?.value || "",
+    group: groupFilter?.value || "",
+    code: codeFilter?.value || "",
+  };
+}

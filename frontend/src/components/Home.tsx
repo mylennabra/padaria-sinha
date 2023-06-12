@@ -15,14 +15,15 @@ function Home() {
           </div>
         </Link>
 
-        <a className="main-btn-a" href="produtos.html">
+        <Link to="/produtos">
           <div className="main-btn-a-icon">
             <i className="ph ph-package"></i>
           </div>
           <div className="main-btn-a-text">
             <p>PRODUTOS</p>
           </div>
-        </a>
+        </Link>
+
         <a className="main-btn-a" href="receita.html">
           <div className="main-btn-a-icon">
             <i className="ph ph-cooking-pot"></i>

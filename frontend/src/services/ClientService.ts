@@ -28,7 +28,7 @@ export default class ClientService {
     code,
     cpf,
   }: ClientFilters): Promise<Client[]> {
-    const url = `${baseUrl}/clients?code=${code}&name=${name}&${cpf}`;
+    const url = `${baseUrl}/clients?code=${code}&name=${name}&cpf=${cpf}`;
     return api
       .get<ApiResponse<ClientDTO[]>>(url)
       .then(({ data: response }) => response.data.map(this.mapClientDTO));

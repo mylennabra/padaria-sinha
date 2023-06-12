@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Clients from "./components/Clients";
 import Home from "./components/Home";
+import Products from "./components/Products";
 import { queryClient } from "./config/api";
 import favicon from "./imgs/logo-r.png";
 import { closeModal } from "./utils";
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route index path="/" element={<Home />} />
           <Route path="/clientes" element={<Clients />} />
+          <Route path="/produtos" element={<Products />} />
         </Routes>
       </QueryClientProvider>
     </BrowserRouter>

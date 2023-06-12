@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "../../imgs/logo.png";
 import { openModal } from "../../utils";
 import { useClients } from "./useClients";
@@ -20,13 +21,12 @@ export function Clients() {
     <div className="home">
       <div className="content">
         <div className="header">
-          <button
-            type="button"
-            className="icon"
-            onClick={() => (window.location.href = "main.html")}
-          >
-            <i className="ph-bold ph-arrow-left"></i>
-          </button>
+          <Link to="/">
+            <button type="button" className="icon">
+              <i className="ph-bold ph-arrow-left"></i>
+            </button>
+          </Link>
+
           <button type="button" className="icon-filled">
             <i className="ph-bold ph-user"></i>
           </button>
