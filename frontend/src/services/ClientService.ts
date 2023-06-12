@@ -34,25 +34,34 @@ export default class ClientService {
       .then(({ data: response }) => response.data.map(this.mapClientDTO));
   }
 
-  public static async create(data: Omit<ClientDTO, "code">): Promise<Client> {
+  public static async create(data: Client): Promise<Client> {
+    const body = this.parseBody(data);
     return api
-      .post<ApiResponse<ClientDTO>>(`${baseUrl}/clients`, data)
+      .post<ApiResponse<ClientDTO>>(`${baseUrl}/clients`, body)
       .then(({ data: response }) => this.mapClientDTO(response.data));
   }
 
   public static async update({ code, ...data }: Client): Promise<Client> {
-    const body: ClientDTO = {
-      code: code,
+    const body = this.parseBody(data as Client);
+    return api
+      .put<ApiResponse<ClientDTO>>(`${baseUrl}/clients/${code}`, body)
+      .then(({ data: response }) => this.mapClientDTO(response.data));
+  }
+
+  public static async delete(code: string): Promise<Client> {
+    return api
+      .delete(`${baseUrl}/clients/${code}`)
+      .then(({ data: response }) => response);
+  }
+
+  private static parseBody(data: Client): ClientDTO {
+    return {
       name: data.name,
       cpf: data.cpf,
       address: data.address,
       primary_phone: data.primaryPhone,
       secondary_phone: data.secondaryPhone,
       obs: data.obs,
-    };
-
-    return api
-      .put<ApiResponse<ClientDTO>>(`${baseUrl}/clients/${code}`, body)
-      .then(({ data: response }) => this.mapClientDTO(response.data));
+    } as ClientDTO;
   }
 }

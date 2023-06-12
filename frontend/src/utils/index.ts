@@ -85,3 +85,20 @@ export function getClientFilters(): {
     cpf: cpfFilter?.value || "",
   };
 }
+
+export function mergeObjects(
+  obj1: Record<string, any>,
+  obj2: Record<string, any>
+): Record<string, any> {
+  const merged = { ...obj1 };
+
+  Object.keys(obj2).forEach((key) => {
+    const value = obj2[key];
+
+    if (value) {
+      merged[key] = value;
+    }
+  });
+
+  return merged;
+}

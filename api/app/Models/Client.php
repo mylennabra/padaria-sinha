@@ -17,7 +17,7 @@ class Client extends BaseModel
         'obs',
     ];
 
-    public function scopeByCode(Builder $query, int $code): Builder
+    public function scopeByCode(Builder $query, string $code): Builder
     {
         return $query->where('code', $code);
     }
