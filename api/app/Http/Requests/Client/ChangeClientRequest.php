@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Client;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class ChangeClientRequest extends FormRequest
+class ChangeClientRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
@@ -16,10 +16,10 @@ class ChangeClientRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'cpf' => ['required', 'string'],
-            'address' => ['string'],
+            'address' => ['nullable', 'string'],
             'primary_phone' => ['required', 'string'],
-            'secondary_phone' => ['string'],
-            'obs' => ['string'],
+            'secondary_phone' => ['nullable', 'string'],
+            'obs' => ['nullable', 'string'],
         ];
     }
 }

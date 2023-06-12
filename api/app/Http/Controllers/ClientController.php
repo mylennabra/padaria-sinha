@@ -14,7 +14,13 @@ class ClientController extends Controller
 {
     public function index(Request $request): JsonResource
     {
-        return ClientResource::collection(Client::all());
+        $clients = Client::query()
+            ->when($request->query('code'), fn ($query, $code) => $query->byCode($code))
+            ->when($request->query('name'), fn ($query, $code) => $query->byName($code))
+            ->when($request->query('cpf'), fn ($query, $code) => $query->byCpf($code))
+            ->get();
+
+        return ClientResource::collection($clients);
     }
 
     public function store(StoreClientRequest $request): JsonResource
