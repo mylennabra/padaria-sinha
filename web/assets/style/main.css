@@ -7,10 +7,6 @@ h2 {
   margin-right: 10px;
 }
 
-#remove-client {
-  display: none;
-}
-
 .icon-filled, .icon {
   background-color: #9E2E2D;
   color: #ffffff;
@@ -391,6 +387,33 @@ h2 {
   background-color: #e63e3b;
 }
 
+.btn-unfilled {
+  display: flex;
+  align-items: center;
+  height: 7vh;
+  background-color: #ffffff;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.btn-unfilled i {
+  color: #9E2E2D;
+  font-size: 32px;
+}
+.btn-unfilled h5 {
+  font-size: 15px;
+  color: #ffffff;
+}
+.btn-unfilled:hover {
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.btn-unfilled:hover i {
+  color: #e63e3b;
+}
+
 .main-btn {
   display: flex;
   gap: 20px;
@@ -428,7 +451,7 @@ a {
 }
 
 .form {
-  width: 40vw;
+  width: 100%;
   margin: 0 auto;
 }
 .form-row {
