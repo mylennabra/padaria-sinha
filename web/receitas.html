@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/style/main.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>Receitas</title>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <button type="button" class="icon" onclick="window.location.href = 'main.html'"><i class="ph-bold ph-arrow-left"></i></button>
+            <button type="button" class="icon-filled"><i class="ph-bold ph-cooking-pot"></i></button>
+            <h2 class="header-txt">RECEITAS</h2>
+        </div>
+        <div class="pro">
+            <div class="pro-pesquisa-ctn">
+                <div class="pro-pesquisa-ctn-header">
+                    <div>
+                        <label for="cod">CÓDIGO:</label>
+                        <input type="text">
+                    </div>
+                    <div>
+                        <label for="cod">DESCRIÇÃO:</label>
+                        <input type="text">
+                    </div>
+                    
+                    <button type="button" class="btn"><i class="ph-bold ph-magnifying-glass"></i><h5>PESQUISAR</h5></button>
+                    <button type="button" id="openModalBtn" class="btn"><i class="ph-bold ph-plus-circle"></i><h5>NOVO</h5></button>
+                </div>
+            </div>
+            <div class="pro-lista-ctn">
+                <div class="pro-table-container">
+                    <table class="pro-table">
+                    <thead>
+                        <tr>
+                            <th>CÓD</th>
+                            <th>DESCRIÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="modal" class="modal">
+            <div class="modal-content">
+                <div class="close-btn">
+                    <button type="button" class="icon close"><i class="ph-bold ph-x-circle"></i></button> 
+                </div>
+                <div class="form">
+                    <div class="form-row">
+                        <div class="form-item">
+                            <label for="codigo">CÓDIGO:</label>
+                            <input type="text" id="codigoReceita" name="codigo">
+                        </div>
+                        <div class="form-item">
+                            <label for="cpf">NOME:</label>
+                            <input type="text" id="nomeReceita" name="nomeReceita">
+                        </div>
+                        <div class="form-item">
+                            <label for="cpf"> </label>
+                            <div class="form-buttons">
+                                <button type="button" class="btn"><i class="ph-bold ph-file"></i><h5>SALVAR</h5></button>
+                                <button type="button" class="btn close"><i class="ph-bold ph-x-circle"></i><h5>CANCELAR</h5></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <h3>PRODUTO FINAL:</h3>
+                        <label for="codigo">CÓDIGO:</label>
+                        <input type="text" id="codigoReceita" name="codigo">
+                    </div>
+                    <div class="form-item">
+                        <label for="cpf">NOME:</label>
+                        <input type="text" id="nomeReceita" name="nomeReceita">
+                    </div>
+                </div>
+                <div class="form-row ">
+                    <div class="form-item">
+                        <h3>INSUMOS:</h3>
+                        <label for="codigo">CÓDIGO:</label>
+                        <input type="text" id="codigoReceita" name="codigo">
+                    </div>
+                    <div class="form-item">
+                        <label for="cpf">NOME:</label>
+                        <input type="text" id="nomeReceita" name="nomeReceita">
+                    </div>
+                    <div class="form-item">
+                        <label for="cpf">UN:</label>
+                        <input type="text" id="nomeReceita" name="nomeReceita">
+                    </div>
+                    <div class="form-item">
+                        <label for="cpf">QUANTIDADE:</label>
+                        <input type="text" id="nomeReceita" name="nomeReceita">
+                    </div>
+                    <button type="button" class="btn-unfilled"><i class="ph-bold ph-plus-circle"></i></button>
+                </div>
+                <div class="">
+                    <div class="pro-table-container">
+                        <table class="pro-table">
+                        <thead>
+                            <tr>
+                                <th>CÓD</th>
+                                <th>NOME</th>
+                                <th>UN</th>
+                                <th>QUANTIDADE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/scripts/receitas.js"></script>
+</body>
+</html>
