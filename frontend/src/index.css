@@ -7,10 +7,6 @@ h2 {
   margin-right: 10px;
 }
 
-#remove-client {
-  display: none;
-}
-
 .icon-filled, .icon {
   background-color: #9E2E2D;
   color: #ffffff;
@@ -225,6 +221,18 @@ body {
   border: 1px solid #dddddd;
 }
 
+.radio-ctn {
+  flex: 1/3;
+  padding: 0px 15px;
+}
+.radio-ctn > div {
+  display: flex;
+}
+.radio-ctn > div > input {
+  background-color: transparent;
+  margin-right: 10px;
+}
+
 .header {
   display: flex;
   justify-content: start;
@@ -368,6 +376,7 @@ h2 {
   display: flex;
   padding: 11px;
   align-items: center;
+  justify-content: center;
   height: 7vh;
   background-color: #9E2E2D;
   color: #ffffff;
@@ -389,6 +398,33 @@ h2 {
   transition-duration: 0.5s;
   cursor: pointer;
   background-color: #e63e3b;
+}
+
+.btn-unfilled {
+  display: flex;
+  align-items: center;
+  height: 7vh;
+  background-color: #ffffff;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.btn-unfilled i {
+  color: #9E2E2D;
+  font-size: 32px;
+}
+.btn-unfilled h5 {
+  font-size: 15px;
+  color: #ffffff;
+}
+.btn-unfilled:hover {
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.btn-unfilled:hover i {
+  color: #e63e3b;
 }
 
 .main-btn {
@@ -428,7 +464,7 @@ a {
 }
 
 .form {
-  width: 40vw;
+  width: 100%;
   margin: 0 auto;
 }
 .form-row {
@@ -463,6 +499,32 @@ a {
   height: 38px;
   margin-left: 10px;
   padding: 10px !important;
+}
+
+.login {
+  margin-top: 10vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.login-ctn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.login-ctn > label {
+  font-weight: bold;
+}
+.login-ctn > input {
+  text-align: center;
+}
+.login-ctn > .btn {
+  margin-top: 5vh;
+  width: 100%;
+  margin-left: 0;
+  text-align: center;
 }
 
 .modal {

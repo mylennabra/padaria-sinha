@@ -60,7 +60,7 @@ function Home() {
           </div>
         </Link>
 
-        <Link to="/">
+        <Link to="/entrar">
           <div className="main-btn-a-icon">
             <i className="ph ph-sign-out"></i>
           </div>

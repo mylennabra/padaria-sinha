@@ -4,6 +4,7 @@
     display: flex;
     padding: 11px;
     align-items: center;
+    justify-content: center;
     height: 7vh;
     background-color: v.$vinho;
     color: v.$branco; 
@@ -24,6 +25,31 @@
         transition-duration: 0.5s;
         cursor: pointer;
         background-color: v.$vinho2;
+    }
+}
+
+.btn-unfilled{
+    display: flex;
+    align-items: center;
+    height: 7vh;
+    background-color: v.$branco;
+    color: v.$branco; 
+    outline: none;
+    border: none;
+    border-radius: 5px; 
+    margin-left: 10px;
+    i{
+        color: v.$vinho; 
+        font-size: 32px;
+    }
+    h5{
+        font-size: 15px;
+        color: v.$branco; 
+    }
+    &:hover{
+        transition-duration: 0.5s;
+        cursor: pointer;
+        i {color: v.$vinho2;}
     }
 }
 

@@ -52,7 +52,7 @@ export function Clients() {
                 id="search-clients"
                 type="button"
                 className="btn btn-flex"
-                onClick={() => refetchClients()}
+                onClick={refetchClients}
               >
                 <i className="ph-bold ph-magnifying-glass"></i>
                 <h5>PESQUISAR</h5>

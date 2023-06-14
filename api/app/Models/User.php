@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'context',
         'password',
     ];
 
@@ -42,4 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function scopeByName(Builder $query, string $name): Builder
+    {
+        return $query->where('name', 'like', "%$name%");
+    }
+
+    public function scopeByLogin(Builder $query, string $email): Builder
+    {
+        return $query->where('email', 'like', "%$email%");
+    }
 }

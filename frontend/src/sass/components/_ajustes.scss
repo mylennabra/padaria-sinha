@@ -1,0 +1,14 @@
+@use './../util/variables' as v;
+@use './../util/util' as u;
+
+.radio-ctn{
+    flex: 1/3;
+    padding: 0px 15px;
+    & > div {
+        display: flex;
+        & > input{
+            background-color: transparent;
+            margin-right: 10px;
+        }
+    }
+}
