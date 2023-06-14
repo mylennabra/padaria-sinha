@@ -24,47 +24,52 @@ function Home() {
           </div>
         </Link>
 
-        <a className="main-btn-a" href="receita.html">
+        <Link to="/receitas">
           <div className="main-btn-a-icon">
             <i className="ph ph-cooking-pot"></i>
           </div>
           <div className="main-btn-a-text">
             <p>RECEITAS</p>
           </div>
-        </a>
-        <a className="main-btn-a" href="vendas.html">
+        </Link>
+
+        <Link to="/vendas">
           <div className="main-btn-a-icon">
             <i className="ph ph-laptop"></i>
           </div>
           <div className="main-btn-a-text">
             <p>VENDAS</p>
           </div>
-        </a>
-        <a className="main-btn-a" href="contas.html">
+        </Link>
+
+        <Link to="/contas">
           <div className="main-btn-a-icon">
             <i className="ph ph-hand-coins"></i>
           </div>
           <div className="main-btn-a-text">
             <p>CONTAS</p>
           </div>
-        </a>
-        <a className="main-btn-a" href="ajustes.html">
+        </Link>
+
+        <Link to="/ajustes">
           <div className="main-btn-a-icon">
             <i className="ph ph-gear"></i>
           </div>
           <div className="main-btn-a-text">
             <p>AJUSTES</p>
           </div>
-        </a>
-        <a className="main-btn-a" href="#">
+        </Link>
+
+        <Link to="/entrar">
           <div className="main-btn-a-icon">
             <i className="ph ph-sign-out"></i>
           </div>
           <div className="main-btn-a-text">
             <p>SAIR</p>
           </div>
-        </a>
+        </Link>
       </div>
+
       <p className="pada">2023</p>
     </div>
   );

@@ -1,6 +1,16 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  UseMutationResult,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  SubmitHandler,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormReset,
+  useForm,
+} from "react-hook-form";
 import { QueryKeys } from "../../config/QueryKeys";
 import { Product } from "../../entities";
 import { ApiError } from "../../entities/ApiError.type";
@@ -11,7 +21,28 @@ import {
   getProductFiltersInputs,
 } from "../../utils";
 
-export function useProducts() {
+export interface UseProductsResult {
+  readonly register: UseFormRegister<Product>;
+  readonly handleSubmit: UseFormHandleSubmit<Product, undefined>;
+  readonly refetchProducts: () => void;
+  readonly resetFields: () => void;
+  readonly formData: Product;
+  readonly products?: Product[];
+  readonly groups?: string[];
+  readonly reset: UseFormReset<Product>;
+  readonly isUpdating: boolean;
+  readonly onSubmit: SubmitHandler<Product>;
+  readonly deleteProductMutation: UseMutationResult<
+    Product,
+    ApiError<{
+      message: string;
+    }>,
+    string,
+    unknown
+  >;
+}
+
+export function useProducts(): UseProductsResult {
   const { register, handleSubmit, watch, reset } = useForm<Product>();
   const resetFields = () => {
     reset({

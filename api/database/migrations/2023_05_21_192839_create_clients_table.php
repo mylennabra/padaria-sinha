@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id('code');
             $table->string('name');
             $table->string('cpf')->unique();
-            $table->timestamp('address')->nullable();
+            $table->string('address')->nullable();
             $table->string('primary_phone')->unique();
             $table->string('secondary_phone')->nullable();
             $table->string('obs')->nullable();

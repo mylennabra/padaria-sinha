@@ -1,5 +1,3 @@
-import { ClientDTO } from "../dtos";
-
 export const clientNameInput = document.getElementById(
   "nome"
 ) as HTMLInputElement;
@@ -49,19 +47,6 @@ export function closeModal(btn?: any) {
   } else {
     document.getElementById("modal")!.style.display = "none";
   }
-
-  resetClientInputs();
-}
-
-export function getClientData(refs: any): Omit<ClientDTO, "code"> {
-  return {
-    name: refs.nameRef.current.value,
-    cpf: refs.cpfRef.current.value,
-    primary_phone: refs.primaryPhoneRef.current.value,
-    secondary_phone: refs.secondaryPhoneRef.current.value,
-    address: refs.addressRef.current.value,
-    obs: refs.obsRef.current.value,
-  };
 }
 
 export function getClientFiltersInputs(): HTMLInputElement[] {
@@ -84,23 +69,6 @@ export function getClientFilters(): {
     code: codeFilter?.value || "",
     cpf: cpfFilter?.value || "",
   };
-}
-
-export function mergeObjects(
-  obj1: Record<string, any>,
-  obj2: Record<string, any>
-): Record<string, any> {
-  const merged = { ...obj1 };
-
-  Object.keys(obj2).forEach((key) => {
-    const value = obj2[key];
-
-    if (value) {
-      merged[key] = value;
-    }
-  });
-
-  return merged;
 }
 
 export function getProductFiltersInputs(): HTMLInputElement[] {
@@ -129,5 +97,53 @@ export function getProductFilters(): {
     description: descriptionFilter?.value || "",
     group: groupFilter?.value || "",
     code: codeFilter?.value || "",
+  };
+}
+
+export function getRecipeFiltersInputs(): HTMLInputElement[] {
+  const nameFilter = document.getElementById(
+    "recipe-name-filter"
+  ) as HTMLInputElement;
+
+  const codeFilter = document.getElementById(
+    "recipe-code-filter"
+  ) as HTMLInputElement;
+
+  return [nameFilter, codeFilter];
+}
+
+export function getRecipeFilters(): {
+  name: string;
+  code: string;
+} {
+  const [nameFilter, codeFilter] = getRecipeFiltersInputs();
+
+  return {
+    name: nameFilter?.value || "",
+    code: codeFilter?.value || "",
+  };
+}
+
+export function getSettingsFiltersInputs(): HTMLInputElement[] {
+  const nameFilter = document.getElementById(
+    "settings-name-filter"
+  ) as HTMLInputElement;
+
+  const loginFilter = document.getElementById(
+    "settings-login-filter"
+  ) as HTMLInputElement;
+
+  return [nameFilter, loginFilter];
+}
+
+export function getSettingsFilters(): {
+  name: string;
+  email: string;
+} {
+  const [nameFilter, emailFilter] = getSettingsFiltersInputs();
+
+  return {
+    name: nameFilter?.value || "",
+    email: emailFilter?.value || "",
   };
 }

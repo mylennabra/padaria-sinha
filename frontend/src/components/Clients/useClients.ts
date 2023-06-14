@@ -1,6 +1,16 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  UseMutationResult,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  SubmitHandler,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormReset,
+  useForm,
+} from "react-hook-form";
 import { QueryKeys } from "../../config/QueryKeys";
 import { Client } from "../../entities";
 import { ApiError } from "../../entities/ApiError.type";
@@ -9,10 +19,30 @@ import {
   closeModal,
   getClientFilters,
   getClientFiltersInputs,
-  resetClientInputs,
 } from "../../utils";
 
-export function useClients() {
+export interface UseClientsResult {
+  readonly register: UseFormRegister<Client>;
+  readonly handleSubmit: UseFormHandleSubmit<Client, undefined>;
+  readonly refetchClients: () => void;
+  readonly resetFields: () => void;
+  readonly formData: Client;
+  readonly clients?: Client[];
+  readonly groups?: string[];
+  readonly reset: UseFormReset<Client>;
+  readonly isUpdating: boolean;
+  readonly onSubmit: SubmitHandler<Client>;
+  readonly deleteClientMutation: UseMutationResult<
+    Client,
+    ApiError<{
+      message: string;
+    }>,
+    string,
+    unknown
+  >;
+}
+
+export function useClients(): UseClientsResult {
   const { register, handleSubmit, watch, reset } = useForm<Client>();
   const resetFields = () => {
     reset({
@@ -40,8 +70,6 @@ export function useClients() {
   };
 
   useEffect(() => {
-    resetClientInputs();
-
     getClientFiltersInputs().forEach((input) => {
       input.addEventListener("keypress", (event) => {
         handleFilterEnterKey(event.key);
