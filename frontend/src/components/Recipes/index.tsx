@@ -15,7 +15,7 @@ const Recipes = () => {
     currentFeedStock: undefined,
   });
 
-  const { feedStocks, currentFeedStock } = state;
+  const { feedStocks } = state;
   const { refetchRecipes, resetFields, reset, recipes, formData } =
     useRecipes();
 

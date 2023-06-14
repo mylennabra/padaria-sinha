@@ -9,7 +9,6 @@ const Settings = () => {
     register,
     reset,
     resetFields,
-    deleteUserMutation,
     formData,
     isUpdating,
     onSubmit,
